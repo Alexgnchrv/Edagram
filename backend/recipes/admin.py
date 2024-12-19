@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import (Favourite, Ingredient, IngredientInRecipe, Recipe,
-                     ShoppingCart, Tag)
+from .models import Ingredient, Recipe, Tag
 
 
 @admin.register(Recipe)
@@ -35,27 +34,3 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug',)
     search_fields = ('name', 'slug',)
     prepopulated_fields = {'slug': ('name',)}
-
-
-@admin.register(ShoppingCart)
-class ShoppingCartAdmin(admin.ModelAdmin):
-    """Админка для модели ShoppingCart."""
-
-    list_display = ('user', 'recipe',)
-    search_fields = ('user__username', 'recipe__name',)
-
-
-@admin.register(Favourite)
-class FavouriteAdmin(admin.ModelAdmin):
-    """Админка для модели Favourite."""
-
-    list_display = ('user', 'recipe',)
-    search_fields = ('user__username', 'recipe__name',)
-
-
-@admin.register(IngredientInRecipe)
-class IngredientInRecipeAdmin(admin.ModelAdmin):
-    """Админка для модели IngredientInRecipe."""
-
-    list_display = ('recipe', 'ingredient', 'amount',)
-    search_fields = ('recipe__name', 'ingredient__name',)

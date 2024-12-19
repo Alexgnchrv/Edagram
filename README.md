@@ -22,6 +22,8 @@
 
 ## Создание и загрузка Docker-образов
 
+### Построение и загрузка Docker-образов вручную
+
 1. Построение Docker-образов:
     ```bash
     cd frontend
@@ -30,15 +32,12 @@
     cd ../backend
     docker build -t username/foodgram_backend .
 
-    cd ../nginx
-    docker build -t username/foodgram_gateway .
     ```
 
 2. Загрузка образов в DockerHub:
     ```bash
     docker push username/foodgram_frontend
     docker push username/foodgram_backend
-    docker push username/foodgram_gateway
     ```
 
 ## Деплой на сервер
@@ -58,7 +57,7 @@
     scp -i путь_до_файла_с_SSH_ключом/название_файла_с_SSH_ключом ./docker-compose.production.yml имя_пользователя@ip_адрес_сервера:/home/имя_пользователя/foodgram/
     ```
 
-4. Скопируйте файл `nginx.conf` из папки `infra` на сервер:
+4. Скопируйте файл `nginx.conf` из папки `infra` в аналогичную папку на сервер:
     ```bash
     scp -i путь_до_файла_с_SSH_ключом/название_файла_с_SSH_ключом ./infra/nginx.conf имя_пользователя@ip_адрес_сервера:/home/имя_пользователя/foodgram/infra/
     ```
@@ -114,11 +113,29 @@
     sudo service nginx reload
     ```
 
+## Запуск контейнеров вручную
+
+**Запустите Docker Compose в режиме демона и подтяните образы:**
+
+Для того чтобы загрузить образы с DockerHub и сразу запустить контейнеры, используйте команду `docker compose pull` для загрузки образов и `docker compose up -d --build` для сборки и запуска контейнеров:
+
+1. Загрузить последние образы с DockerHub:
+    ```
+    sudo docker compose -f docker-compose.production.yml pull
+    ```
+
+2. Сборка и запуск контейнеров в фоновом режиме:
+    ```
+    sudo docker compose -f docker-compose.production.yml up -d --build
+    ```
+
 ## Настройка CI/CD
 
 1. Файл workflow находится в директории `.github/workflows/main.yml`. Он автоматизирует процесс тестирования и деплоя на сервер.
 
-2. Для настройки GitHub Actions добавьте следующие секреты в настройки репозитория на GitHub:
+2. В процессе CI/CD **копирование файла `docker-compose.production.yml` на сервер настроено автоматически**. После копирования всех необходимых файлов на сервер, все дальнейшие действия, такие как загрузка образов, сборка и запуск контейнеров, выполняются автоматически через GitHub Actions.
+
+3. Для настройки GitHub Actions добавьте следующие секреты в настройки репозитория на GitHub:
     - **DOCKER_USERNAME** — логин DockerHub
     - **DOCKER_PASSWORD** — пароль DockerHub
     - **HOST** — IP-адрес сервера

@@ -6,15 +6,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print(f"PYTHONUNBUFFERED={os.getenv('PYTHONUNBUFFERED')}")
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default-secret-key')
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='edagram.ddns.net', cast=lambda v: [s.strip() for s in v.split(',')])
 
 AUTH_USER_MODEL = 'users.User'
 
 DEBUG = config('DEBUG', default=True, cast=bool)
+PYTHONUNBUFFERED = config('PYTHONUNBUFFERED', default='0')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -82,11 +85,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'api.serializers.StandartUserCreateSerializer',
+        'user_create': 'api.serializers.UserCreateSerializer',
         'user': 'api.serializers.StandartUserSerializer',
         'current_user': 'api.serializers.StandartUserSerializer',
     },
@@ -132,3 +138,36 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://edagram.ddns.net",
+    "http://localhost:8000",
+]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'NOTSET',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'NOTSET',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'propagate': False,
+            'level': 'ERROR'
+        }
+    }
+}

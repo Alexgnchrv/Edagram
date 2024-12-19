@@ -13,7 +13,7 @@ class Ingredient(models.Model):
         unique=True,
         verbose_name='Название ингредиента'
     )
-    unit = models.CharField(
+    measurement_unit = models.CharField(
         max_length=20,
         verbose_name='Единица измерения'
     )
@@ -28,7 +28,7 @@ class Ingredient(models.Model):
     def __str__(self):
         """Метод строкового представления модели."""
 
-        return f"{self.name} ({self.unit})"
+        return f"{self.name} ({self.measurement_unit})"
 
 
 class Tag(models.Model):
@@ -154,13 +154,13 @@ class Favourite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='favourites',
+        related_name='favorites',
         verbose_name='Пользователь'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='favourited_by',
+        related_name='favorited_by',
         verbose_name='Рецепт'
     )
 
@@ -194,7 +194,7 @@ class ShoppingCart(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='in_shopping_cart',
+        related_name='is_in_shopping_cart',
         verbose_name='Рецепт'
     )
 

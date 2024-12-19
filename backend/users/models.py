@@ -5,18 +5,16 @@ from django.db import models
 class User(AbstractUser):
     """Кастомная модель пользователя."""
 
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        blank=True,
+        null=True,
+        verbose_name='Аватар'
+    )
     username = models.CharField(
         max_length=150,
         unique=True,
         verbose_name='Имя пользователя'
-    )
-    first_name = models.CharField(
-        max_length=150,
-        verbose_name='Имя'
-    )
-    last_name = models.CharField(
-        max_length=150,
-        verbose_name='Фамилия'
     )
     email = models.EmailField(
         unique=True,

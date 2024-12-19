@@ -5,6 +5,7 @@ class StandardPagination(PageNumberPagination):
     """
     Кастомный класс пагинации для управления количеством объектов на странице.
     """
+
     page_size = 10
-    page_size_query_param = 'page_size'
+    page_size_query_param = 'limit'
     max_page_size = 100

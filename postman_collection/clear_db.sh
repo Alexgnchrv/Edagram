@@ -20,7 +20,7 @@ echo "from django.contrib.auth import get_user_model; User = get_user_model(); \
      'the-username-that-is-150-characters-long-and-should-not-pass-validation-if-the-serializer-is-configured-correctly-otherwise-the-current-test-will-fail-', \
      'TooLongFirstName', 'TooLongLastName', 'InvalidU$ername', 'EmailInUse']; \
      delete_num, _ = User.objects.filter(username__in=usernames_list).delete(); \
-     exit(1) if not delete_num else exit(0);" | $python manage.py shell
+     exit(1) if not delete_num else exit(0);" | docker exec -i foodgram-backend python manage.py shell
 status=$?;
 if [ $status -ne 0 ]; then
     echo "Ошибка при удалении записей, созданных в БД на предыдущем запуске postman-коллекции: объекты отсутствуют либо произошел сбой.";

@@ -106,16 +106,6 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Create directories and set permissions via ssh
-      run: |
-        ssh ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
-          mkdir -p /home/username/foodgram/infra
-          mkdir -p /home/username/foodgram/docs
-          
-          sudo chown -R $USER:$USER /home/username/foodgram
-          sudo chmod -R 755 /home/username/foodgram
-        EOF
-
     - name: Copy docker-compose.yml via ssh
       uses: appleboy/scp-action@master
       with:
@@ -125,24 +115,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: "docker-compose.production.yml"
         target: "foodgram"
-    - name: Copy nginx.conf via ssh
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "infra/nginx.conf"
-        target: "foodgram/infra/nginx.conf"
-    - name: Copy docs files via ssh
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "docs/*"
-        target: "foodgram/docs"
+
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:

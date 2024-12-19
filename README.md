@@ -76,9 +76,16 @@
     sudo apt install docker-compose-plugin 
     ```
 
-7. Запустите Docker Compose в режиме демона:
+7. **Запустите Docker Compose в режиме демона и подтяните образы:**
+
+    Для того чтобы загрузить образы с DockerHub и сразу запустить контейнеры, используйте команду `docker-compose pull` для загрузки образов и `docker-compose up -d --build` для сборки и запуска контейнеров:
+
     ```bash
-    sudo docker compose -f docker-compose.production.yml up -d
+    # Загрузить последние образы с DockerHub
+    sudo docker-compose -f docker-compose.production.yml pull
+
+    # Сборка и запуск контейнеров в фоновом режиме
+    sudo docker-compose -f docker-compose.production.yml up -d --build
     ```
 
 8. Выполните миграции и соберите статические файлы:
@@ -111,22 +118,6 @@
 4. Если ошибок нет, перезапустите Nginx:
     ```bash
     sudo service nginx reload
-    ```
-
-## Запуск контейнеров вручную
-
-**Запустите Docker Compose в режиме демона и подтяните образы:**
-
-Для того чтобы загрузить образы с DockerHub и сразу запустить контейнеры, используйте команду `docker compose pull` для загрузки образов и `docker compose up -d --build` для сборки и запуска контейнеров:
-
-1. Загрузить последние образы с DockerHub:
-    ```
-    sudo docker compose -f docker-compose.production.yml pull
-    ```
-
-2. Сборка и запуск контейнеров в фоновом режиме:
-    ```
-    sudo docker compose -f docker-compose.production.yml up -d --build
     ```
 
 ## Настройка CI/CD

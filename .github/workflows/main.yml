@@ -73,7 +73,7 @@ jobs:
       - name: Install frontend dependencies
         run: |
           cd frontend/
-          npm ci
+          npm ci --legacy-peer-deps
 
   build_frontend_and_push_to_docker_hub:
     name: Build and Push frontend Docker image to DockerHub
@@ -83,7 +83,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      # Создание и пуш Docker образа для фронтенда
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub

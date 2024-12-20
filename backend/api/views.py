@@ -73,14 +73,14 @@ class RecipeViewSet(ModelViewSet):
         author = self.request.query_params.get('author')
 
         queryset = super().get_queryset()
-        if is_favorited == '1' and user.is_authenticated:
-            return queryset.filter(favorited_by__user=user)
-        if is_in_shopping_cart == '1' and user.is_authenticated:
-            return queryset.filter(is_in_shopping_cart__user=user)
-        if tags:
-            return queryset.filter(tags__slug__in=tags).distinct()
         if author:
-            return queryset.filter(author__id=author)
+            queryset = queryset.filter(author__id=author)
+        if is_favorited == '1' and user.is_authenticated:
+            queryset = queryset.filter(favorited_by__user=user)
+        if is_in_shopping_cart == '1' and user.is_authenticated:
+            queryset = queryset.filter(is_in_shopping_cart__user=user)
+        if tags:
+            queryset = queryset.filter(tags__slug__in=tags).distinct()
 
         return queryset
 

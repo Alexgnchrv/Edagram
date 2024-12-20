@@ -7,15 +7,15 @@ from .models import Ingredient, Recipe, Tag
 class RecipeAdmin(admin.ModelAdmin):
     """Админка для модели Recipe."""
 
-    list_display = ('name', 'id', 'author', 'added_to_favourites_count',)
-    readonly_fields = ('added_to_favourites_count',)
+    list_display = ('name', 'id', 'author', 'added_to_favorites_count',)
+    readonly_fields = ('added_to_favorites_count',)
     list_filter = ('author', 'name', 'tags',)
     search_fields = ('name', 'author__username',)
 
-    def added_to_favourites_count(self, obj):
+    def added_to_favorites_count(self, obj):
         """Количество добавлений рецепта в избранное."""
 
-        return obj.favourited_by.count()
+        return obj.favorited_by.count()
 
 
 @admin.register(Ingredient)

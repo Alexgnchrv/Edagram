@@ -27,7 +27,7 @@ def short_url_redirect(request, short_code):
         short_url = ShortURL.objects.get(short_code=short_code)
         return redirect(f'/recipes/{short_url.recipe.pk}/')
     except ShortURL.DoesNotExist:
-        raise Http404("Короткая ссылка не найдена.")
+        raise Http404('Короткая ссылка не найдена.')
 
 
 class RecipeViewSet(ModelViewSet):
@@ -125,12 +125,11 @@ class RecipeViewSet(ModelViewSet):
         )
 
         shopping_list = '\n'.join([
-            f"{ingredient['ingredient__name']} "
-            f"({ingredient['ingredient__measurement_unit']}) - "
-            f"{ingredient['total_amount']}"
+            f'{ingredient["ingredient__name"]} '
+            f'({ingredient["ingredient__measurement_unit"]}) - '
+            f'{ingredient["total_amount"]}'
             for ingredient in ingredients
         ])
-
         filename = f'{user.username}_shopping_list.txt'
         response = HttpResponse(shopping_list, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename={filename}'
@@ -139,9 +138,7 @@ class RecipeViewSet(ModelViewSet):
 
 
 class TagViewSet(ReadOnlyModelViewSet):
-    """
-    ViewSet для работы с тегами.
-    """
+    """ViewSet для работы с тегами."""
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -149,9 +146,7 @@ class TagViewSet(ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
-    """
-    ViewSet для работы с ингредиентами.
-    """
+    """ViewSet для работы с ингредиентами."""
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer

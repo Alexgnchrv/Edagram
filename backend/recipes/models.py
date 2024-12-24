@@ -167,56 +167,56 @@ class BaseUserRecipeRelation(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="%(app_label)s_%(class)s_user_related",
-        verbose_name="Пользователь"
+        related_name='%(app_label)s_%(class)s_user_related',
+        verbose_name='Пользователь'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name="%(app_label)s_%(class)s_recipe_related",
-        verbose_name="Рецепт"
+        related_name='%(app_label)s_%(class)s_recipe_related',
+        verbose_name='Рецепт'
     )
 
     class Meta:
         abstract = True
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "recipe"],
-                name="%(app_label)s_%(class)s_user_recipe_unique"
+                fields=['user', 'recipe'],
+                name='%(app_label)s_%(class)s_user_recipe_unique'
             )
         ]
 
     def __str__(self):
-        return f"{self.user} добавил {self.recipe}"
+        return f'{self.user} добавил {self.recipe}'
 
 
 class Favourite(BaseUserRecipeRelation):
     """Модель для избранных рецептов."""
 
     class Meta(BaseUserRecipeRelation.Meta):
-        verbose_name = "Избранный рецепт"
-        verbose_name_plural = "Избранные рецепты"
+        verbose_name = 'Избранный рецепт'
+        verbose_name_plural = 'Избранные рецепты'
 
     def __str__(self):
-        return f"{self.user} добавил {self.recipe} в избранное"
+        return f'{self.user} добавил {self.recipe} в избранное'
 
 
 class ShoppingCart(BaseUserRecipeRelation):
     """Модель для корзины покупок."""
 
     class Meta(BaseUserRecipeRelation.Meta):
-        verbose_name = "Корзина покупок"
-        verbose_name_plural = "Корзины покупок"
+        verbose_name = 'Корзина покупок'
+        verbose_name_plural = 'Корзины покупок'
 
     def __str__(self):
-        return f"{self.user} добавил {self.recipe} в корзину"
+        return f'{self.user} добавил {self.recipe} в корзину'
 
 
 class ShortURL(models.Model):
     recipe = models.OneToOneField(
         Recipe,
         on_delete=models.CASCADE,
-        related_name="short_url")
+        related_name='short_url')
     short_code = models.CharField(
         max_length=SHORTURL_SHORTCODE_MAX_LENGTH,
         unique=True)
@@ -230,6 +230,7 @@ class ShortURL(models.Model):
 
     def generate_short_code(self):
         """Генерация случайного короткого кода."""
+
         return ''.join(
             random.choices(string.ascii_letters + string.digits, k=8))
 

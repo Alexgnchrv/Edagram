@@ -33,6 +33,7 @@ class StandartUserViewSet(UserViewSet):
             url_path='me/avatar')
     def avatar_put(self, request):
         """Метод для загрузки или обновления аватара пользователя."""
+
         user = request.user
 
         if 'avatar' not in request.data:
@@ -48,11 +49,12 @@ class StandartUserViewSet(UserViewSet):
     @avatar_put.mapping.delete
     def avatar_delete(self, request):
         """Метод для удаления аватара пользователя."""
+
         user = request.user
         if user.avatar:
             user.avatar.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"detail": "Аватар не найден."},
+        return Response({'detail': 'Аватар не найден.'},
                         status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'],
@@ -62,11 +64,11 @@ class StandartUserViewSet(UserViewSet):
         author_id = self.kwargs.get('id')
         author = get_object_or_404(User, id=author_id)
         serializer = CreateFollowSerializer(data={'author': author.id},
-                                            context={"request": request})
+                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
         follow = serializer.save()
         return Response(FollowSerializer(
-            follow, context={"request": request}).data,
+            follow, context={'request': request}).data,
             status=status.HTTP_201_CREATED)
 
     @create_subscription.mapping.delete

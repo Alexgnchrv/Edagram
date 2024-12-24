@@ -27,13 +27,13 @@ class RecipeAdmin(admin.ModelAdmin):
     def tags_display(self, obj):
         """Отображение тегов в списке рецептов."""
 
-        return ", ".join([tag.name for tag in obj.tags.all()])
+        return ', '.join([tag.name for tag in obj.tags.all()])
 
     @admin.display(description='Ингредиенты')
     def ingredients_display(self, obj):
         """Отображение ингредиентов в списке рецептов."""
 
-        return ", ".join(
+        return ', '.join(
             [ingredient.name for ingredient in obj.ingredients.all()])
 
 

@@ -419,7 +419,7 @@ class AddToModelSerializer(ModelSerializer):
         model = self.Meta.model
         if model.objects.filter(user=data['user'],
                                 recipe=data['recipe']).exists():
-            raise ValidationError("Рецепт уже добавлен!")
+            raise ValidationError('Рецепт уже добавлен!')
         return data
 
     @transaction.atomic
@@ -430,9 +430,8 @@ class AddToModelSerializer(ModelSerializer):
 
 
 class CreateFollowSerializer(Serializer):
-    """
-    Сериализатор для создания подписки.
-    """
+    """Сериализатор для создания подписки."""
+
     user = PrimaryKeyRelatedField(queryset=User.objects.all(),
                                   required=False)
     author = PrimaryKeyRelatedField(queryset=User.objects.all())
@@ -451,9 +450,8 @@ class CreateFollowSerializer(Serializer):
         return data
 
     def create(self, validated_data):
-        """
-        Создаем объект подписки.
-        """
+        """Создаем объект подписки."""
+
         user = self.context.get('request').user
         author = validated_data.get('author')
 

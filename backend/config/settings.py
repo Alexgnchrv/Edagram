@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-print(f"PYTHONUNBUFFERED={os.getenv('PYTHONUNBUFFERED')}")
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default-secret-key')
@@ -16,7 +14,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='edagram.ddns.net', cast=lambda 
 
 AUTH_USER_MODEL = 'users.User'
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 PYTHONUNBUFFERED = config('PYTHONUNBUFFERED', default='0')
 
 INSTALLED_APPS = [
@@ -119,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 

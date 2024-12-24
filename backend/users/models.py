@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .constants import USER_USERNAME_MAX_LENGTH
+
 
 class User(AbstractUser):
     """Кастомная модель пользователя."""
@@ -12,7 +14,7 @@ class User(AbstractUser):
         verbose_name='Аватар'
     )
     username = models.CharField(
-        max_length=150,
+        max_length=USER_USERNAME_MAX_LENGTH,
         unique=True,
         verbose_name='Имя пользователя'
     )

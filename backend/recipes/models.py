@@ -8,8 +8,9 @@ from django.db import models
 from .constants import (INGREDIENT_NAME_MAX_LENGTH, MAX_COOKING_TIME,
                         MAX_INGREDIENT_AMOUNT, MEASUREMENT_UNIT_MAX_LENGTH,
                         MIN_COOKING_TIME, MIN_INGREDIENT_AMOUNT,
-                        RECIPE_NAME_MAX_LENGTH, SHORTURL_SHORTCODE_MAX_LENGTH,
-                        TAG_NAME_MAX_LENGTH, TAG_SLUG_MAX_LENGTH)
+                        RECIPE_NAME_MAX_LENGTH, SHORT_CODE_LENGTH,
+                        SHORTURL_SHORTCODE_MAX_LENGTH, TAG_NAME_MAX_LENGTH,
+                        TAG_SLUG_MAX_LENGTH)
 
 User = get_user_model()
 
@@ -243,7 +244,8 @@ class ShortURL(models.Model):
         """Генерация случайного короткого кода."""
 
         return ''.join(
-            random.choices(string.ascii_letters + string.digits, k=8))
+            random.choices(string.ascii_letters + string.digits,
+                           k=SHORT_CODE_LENGTH))
 
     def __str__(self):
         return self.short_code

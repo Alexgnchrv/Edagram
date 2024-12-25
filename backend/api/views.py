@@ -47,7 +47,6 @@ class RecipeViewSet(ModelViewSet):
                                  kwargs={'short_code': short_url.short_code})
         short_link = request.build_absolute_uri(short_url_path)
 
-        print("Generated Short Link:", short_link)
         return Response({
             'short-link': short_link
         }, status=status.HTTP_200_OK)

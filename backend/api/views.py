@@ -43,10 +43,11 @@ class RecipeViewSet(ModelViewSet):
     def get_link(self, request, pk=None):
         recipe = get_object_or_404(Recipe, pk=pk)
         short_url, created = ShortURL.objects.get_or_create(recipe=recipe)
-        short_url_path = reverse('api:short-url-redirect',
+        short_url_path = reverse('short-url-redirect',
                                  kwargs={'short_code': short_url.short_code})
         short_link = request.build_absolute_uri(short_url_path)
 
+        print("Generated Short Link:", short_link)
         return Response({
             'short-link': short_link
         }, status=status.HTTP_200_OK)

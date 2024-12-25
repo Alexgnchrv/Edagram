@@ -89,7 +89,7 @@ class FollowSerializer(ModelSerializer):
             'id', 'username', 'first_name', 'last_name', 'email',
             'recipes_count', 'recipes', 'is_subscribed', 'avatar',
         )
-        read_only_fields = ('email', 'username', 'is_subscribed')
+        read_only_fields = ('email', 'username', 'is_subscribed',)
 
     def get_recipes_count(self, obj):
         """
@@ -128,7 +128,7 @@ class TagSerializer(ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'slug')
+        fields = ('id', 'name', 'slug',)
 
 
 class IngredientInRecipeSerializer(ModelSerializer):
@@ -143,7 +143,7 @@ class IngredientInRecipeSerializer(ModelSerializer):
 
     class Meta:
         model = IngredientInRecipe
-        fields = ('id', 'name', 'amount', 'measurement_unit')
+        fields = ('id', 'name', 'amount', 'measurement_unit',)
 
 
 class RecipeDetailSerializer(ModelSerializer):
@@ -257,20 +257,6 @@ class RecipeIngredientInputSerializer(Serializer):
                 f'Ингредиента с id {value} не существует!'
             )
         return value
-
-    def get_name(self, ingredient_in_recipe):
-        """
-        Получает имя ингредиента.
-        """
-
-        return ingredient_in_recipe.ingredient.name
-
-    def get_measurement_unit(self, ingredient_in_recipe):
-        """
-        Получает единицу измерения ингредиента.
-        """
-
-        return ingredient_in_recipe.ingredient.measurement_unit
 
 
 class RecipeCreationSerializer(ModelSerializer):
@@ -406,7 +392,7 @@ class AddToModelSerializer(ModelSerializer):
 
     class Meta:
         model = None
-        fields = ('user', 'recipe')
+        fields = ('user', 'recipe',)
 
     def __init__(self, *args, **kwargs):
         model = kwargs.pop('model', None)

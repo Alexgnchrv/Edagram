@@ -4,6 +4,12 @@ from .models import (Favourite, Ingredient, IngredientInRecipe, Recipe,
                      ShoppingCart, Tag)
 
 
+class IngredientInRecipeInline(admin.TabularInline):
+    model = IngredientInRecipe
+    extra = 1
+    fields = ('ingredient', 'amount')
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     """Админка для модели Recipe."""
@@ -16,6 +22,7 @@ class RecipeAdmin(admin.ModelAdmin):
     ordering = ('-id',)
     actions = ['delete_selected']
     list_per_page = 25
+    inlines = [IngredientInRecipeInline]
 
     @admin.display(description='Количество добавлений в избранное')
     def added_to_favorites_count(self, obj):
@@ -34,7 +41,11 @@ class RecipeAdmin(admin.ModelAdmin):
         """Отображение ингредиентов в списке рецептов."""
 
         return ', '.join(
-            [ingredient.name for ingredient in obj.ingredients.all()])
+            [f'{ingredient_in_recipe.ingredient.name} '
+             f'({ingredient_in_recipe.amount})'
+             for ingredient_in_recipe in
+             IngredientInRecipe.objects.filter(recipe=obj)]
+        )
 
 
 @admin.register(Ingredient)

@@ -8,7 +8,8 @@ from django.db import models
 from .constants import (INGREDIENT_NAME_MAX_LENGTH, MAX_COOKING_TIME,
                         MEASUREMENT_UNIT_MAX_LENGTH, MIN_COOKING_TIME,
                         RECIPE_NAME_MAX_LENGTH, SHORTURL_SHORTCODE_MAX_LENGTH,
-                        TAG_NAME_MAX_LENGTH, TAG_SLUG_MAX_LENGTH)
+                        TAG_NAME_MAX_LENGTH, TAG_SLUG_MAX_LENGTH,
+                        MAX_INGREDIENT_AMOUNT, MIN_INGREDIENT_AMOUNT)
 
 User = get_user_model()
 
@@ -60,7 +61,7 @@ class Tag(models.Model):
 
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
-        ordering = ['name']
+        ordering = ['name',]
 
     def __str__(self):
         """Метод строкового представления модели."""
@@ -104,10 +105,12 @@ class Recipe(models.Model):
         validators=[
             MinValueValidator(
                 MIN_COOKING_TIME,
-                ('Время приготовления должно быть не менее одной минуты')),
+                message=f'Время приготовления должно быть не менее '
+                        f'{MIN_COOKING_TIME} минуты'),
             MaxValueValidator(
                 MAX_COOKING_TIME,
-                ('Время приготовления не может превышать 10 000 минут'))
+                message=f'Время приготовления не может превышать '
+                        f'{MAX_COOKING_TIME} минут'),
         ]
     )
 
@@ -139,8 +142,16 @@ class IngredientInRecipe(models.Model):
         related_name='recipe_links',
         verbose_name='Ингредиент'
     )
-    amount = models.PositiveIntegerField(
+    amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
+        validators=[
+            MinValueValidator(MIN_INGREDIENT_AMOUNT,
+                              message=f'Количество не может быть меньше '
+                              f'{MIN_INGREDIENT_AMOUNT}.'),
+            MaxValueValidator(MAX_INGREDIENT_AMOUNT,
+                              message=f'Количество не может быть больше '
+                              f'{MAX_INGREDIENT_AMOUNT}.')
+        ],
     )
 
     class Meta:

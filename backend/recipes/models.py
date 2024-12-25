@@ -61,7 +61,7 @@ class Tag(models.Model):
 
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
-        ordering = ['name',]
+        ordering = ['name', ]
 
     def __str__(self):
         """Метод строкового представления модели."""

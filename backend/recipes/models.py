@@ -6,10 +6,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from .constants import (INGREDIENT_NAME_MAX_LENGTH, MAX_COOKING_TIME,
-                        MEASUREMENT_UNIT_MAX_LENGTH, MIN_COOKING_TIME,
+                        MAX_INGREDIENT_AMOUNT, MEASUREMENT_UNIT_MAX_LENGTH,
+                        MIN_COOKING_TIME, MIN_INGREDIENT_AMOUNT,
                         RECIPE_NAME_MAX_LENGTH, SHORTURL_SHORTCODE_MAX_LENGTH,
-                        TAG_NAME_MAX_LENGTH, TAG_SLUG_MAX_LENGTH,
-                        MAX_INGREDIENT_AMOUNT, MIN_INGREDIENT_AMOUNT)
+                        TAG_NAME_MAX_LENGTH, TAG_SLUG_MAX_LENGTH)
 
 User = get_user_model()
 
